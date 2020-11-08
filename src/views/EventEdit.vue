@@ -104,7 +104,21 @@ export default {
   methods: {
     ...mapActions({
       saveEvent: 'events/saveEvent',
+      fetchEventById: 'events/fetchEventById',
     }),
+    async recoverEvent(id) {
+      await this.fetchEventById(id);
+      const event = this.events[id];
+
+      this.event.title = event.title;
+      this.event.description = event.description;
+      this.event.tag = event.tag;
+
+      this.time = {
+        start: event.startTime.toDate && event.startTime.toDate(),
+        end: event.endTime.toDate && event.endTime.toDate(),
+      };
+    },
     async save() {
       const { id, event, time } = this;
       const finalEvent = {
@@ -115,11 +129,12 @@ export default {
         endTime: time.end,
       };
 
-      this.saveEvent({ id, event: finalEvent });
+      await this.saveEvent({ id, event: finalEvent });
     },
   },
   computed: {
     ...mapGetters({
+      events: 'events/events',
       tags: 'tags/tags',
       allTags: 'tags/allTags',
     }),
@@ -130,8 +145,12 @@ export default {
     },
   },
   created() {
-    if (this.id) this.crudType = 'edit';
-    else this.crudType = 'create';
+    if (this.id) {
+      this.crudType = 'edit';
+      this.recoverEvent(this.id);
+    } else {
+      this.crudType = 'create';
+    }
   },
 };
 </script>

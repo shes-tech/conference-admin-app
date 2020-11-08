@@ -75,7 +75,9 @@ const mutations = {
   },
   SAVE_EVENT: (state, { event }) => {
     Vue.set(state.events, event.id, event);
-    if (!state.allEvents.includes(event.id)) state.allEvents.push(event.id);
+    if (state.allEvents.length !== 0 && !state.allEvents.includes(event.id)) {
+      state.allEvents.push(event.id);
+    }
   },
 };
 

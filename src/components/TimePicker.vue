@@ -60,7 +60,7 @@
 import VueTimepicker from 'vue2-timepicker';
 import 'vue2-timepicker/dist/VueTimepicker.css';
 
-import { parse } from 'date-fns';
+import { format, parse } from 'date-fns';
 
 export default {
   name: 'TimePicker',
@@ -94,16 +94,39 @@ export default {
       if (!start.HH || !end.HH) return {};
       if (!start.mm || !end.mm) return {};
 
-      const format = 'yyyy-MM-dd HH:mm x';
+      const formatString = 'yyyy-MM-dd HH:mm x';
       const final = {
-        start: parse(`${date} ${start.HH}:${start.mm} -03`, format, new Date()),
-        end: parse(`${date} ${end.HH}:${end.mm} -03`, format, new Date()),
+        start: parse(`${date} ${start.HH}:${start.mm} -03`, formatString, new Date()),
+        end: parse(`${date} ${end.HH}:${end.mm} -03`, formatString, new Date()),
       };
 
       this.final = final;
       this.$emit('change', final);
       return final;
     },
+    readInput(input) {
+      if (!input || !input.start || !input.end) {
+        return;
+      }
+      if (input.start === this.final.start && input.end === this.final.end) {
+        return;
+      }
+
+      this.final.start = input.start;
+      this.final.end = input.end;
+
+      this.date = format(input.start, 'yyyy-MM-dd');
+      this.start = format(input.start, 'HH:mm');
+      this.end = format(input.end, 'HH:mm');
+    },
+  },
+  watch: {
+    input(newValue) {
+      this.readInput(newValue);
+    },
+  },
+  mounted() {
+    this.readInput(this.input);
   },
 };
 </script>

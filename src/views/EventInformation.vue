@@ -5,6 +5,17 @@
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
       Sobre o evento
+      <v-spacer></v-spacer>
+      <v-btn
+        color="primary"
+        elevation="0"
+        :to="`/events/${id}/edit`"
+      >
+        <v-icon left dark>
+          mdi-pencil
+        </v-icon>
+        Editar
+      </v-btn>
     </v-card-title>
 
     <v-card-text>

@@ -44,6 +44,14 @@
           {{ item.title }}
         </router-link>
       </template>
+      <template v-slot:item.tag="{ item }">
+        {{ item.tag ? tags[item.tag].name : '' }}
+      </template>
+      <template v-slot:item.startTime="{ item }">
+        {{ item.startTime | shortDateFirestore }},
+        {{ item.startTime | timeFirestore }} -
+        {{ item.endTime | timeFirestore }}
+      </template>
     </v-data-table>
   </div>
 </template>
@@ -63,7 +71,8 @@ export default {
           align: 'start',
           value: 'title',
         },
-        { text: 'Tipo', value: 'type' },
+        { text: 'Trilha', value: 'tag' },
+        { text: 'Data', value: 'startTime' },
       ],
     };
   },
@@ -80,6 +89,7 @@ export default {
   computed: {
     ...mapGetters({
       allEvents: 'events/allEvents',
+      tags: 'tags/tags',
     }),
   },
   created() {

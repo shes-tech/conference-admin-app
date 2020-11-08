@@ -10,14 +10,20 @@ const routes = [
     component: () => import(/* webpackChunkName: "login" */ '@/views/Login.vue'),
   },
   {
-    path: '/menu',
-    name: 'Menu',
-    component: () => import(/* webpackChunkName: "main" */ '@/views/Menu.vue'),
-  },
-  {
-    path: '/events',
-    name: 'Events',
-    component: () => import(/* webpackChunkName: "main" */ '@/views/Events.vue'),
+    path: '/',
+    component: () => import(/* webpackChunkName: "main" */ '@/views/BasePage.vue'),
+    children: [
+      {
+        path: '/menu',
+        name: 'Menu',
+        component: () => import(/* webpackChunkName: "main" */ '@/views/Menu.vue'),
+      },
+      {
+        path: '/events',
+        name: 'Events',
+        component: () => import(/* webpackChunkName: "main" */ '@/views/Events.vue'),
+      },
+    ],
   },
 ];
 

@@ -1,5 +1,5 @@
 <template>
-  <v-card class="ma-4 pb-6">
+  <div class="pb-5">
     <v-card-title>
       Para onde deseja ir?
     </v-card-title>
@@ -16,7 +16,7 @@
       </v-btn>
       <p class="pl-3">{{ link.description }}</p>
     </div>
-  </v-card>
+  </div>
 </template>
 
 <script>

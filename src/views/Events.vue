@@ -1,5 +1,5 @@
 <template>
-  <v-card class="ma-4">
+  <div>
     <v-card-title>
       <v-btn
         icon
@@ -38,7 +38,7 @@
       :loading="isLoading"
       :search="search"
     ></v-data-table>
-  </v-card>
+  </div>
 </template>
 
 <script>

@@ -12,6 +12,7 @@ const actions = {
   login: async ({ commit }, { email, password }) => {
     const user = await firebase.auth().signInWithEmailAndPassword(email, password);
     commit('SET_USER', user);
+    console.log(user);
   },
 };
 

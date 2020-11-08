@@ -1,0 +1,45 @@
+<template>
+  <v-card class="ma-4 pb-6">
+    <v-card-title>
+      Para onde deseja ir?
+    </v-card-title>
+    <h2></h2>
+
+    <div
+      v-for="(link, index) in links"
+      :key="index"
+      class="pl-3 mb-8"
+      outlined
+    >
+      <v-btn color="primary" text :to="link.path" class="px-3" x-large>
+        {{ link.title }}
+      </v-btn>
+      <p class="pl-3">{{ link.description }}</p>
+    </div>
+  </v-card>
+</template>
+
+<script>
+export default {
+  name: 'Menu',
+  data() {
+    return {
+      links: [
+        {
+          title: 'Eventos',
+          description: 'Visualizar e alterar lista de eventos.',
+          path: '/events',
+        },
+        {
+          title: 'Trilhas',
+          description: `
+            Visualizar e alterar lista de trilhas
+            e modificar links dos eventos.
+          `,
+          path: '/tags',
+        },
+      ],
+    };
+  },
+};
+</script>

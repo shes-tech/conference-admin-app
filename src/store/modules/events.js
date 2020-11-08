@@ -8,13 +8,14 @@ const INITIAL_FETCH_LIMIT = 4;
 const defaultState = {
   events: {},
   allEvents: [],
+  tags: {},
 };
 
 const actions = {
   fetchAllEvents: async ({ commit }) => {
     const events = {};
 
-    const snapshot = await db.collection('events')
+    const snapshot = await db.collection('events-2020')
       .orderBy('endTime')
       .orderBy('startTime')
       .limit(INITIAL_FETCH_LIMIT)
@@ -29,7 +30,7 @@ const actions = {
   fetchEventById: async ({ state, commit }, id) => {
     if (state.events[id]) return;
 
-    const document = await db.collection('events').doc(id).get();
+    const document = await db.collection('events-2020').doc(id).get();
 
     const event = {
       id: document.id,
@@ -37,6 +38,28 @@ const actions = {
     };
 
     commit('SAVE_EVENT', { event });
+  },
+  saveEvent: async ({ dispatch }, { id, event }) => {
+    if (id) dispatch('updateEvent', { id, event });
+    else dispatch('createEvent', event);
+  },
+  createEvent: async ({ commit }, event) => {
+    const document = await db.collection('events-2020').add(event);
+    const fetchedEvent = {
+      id: document.id,
+      ...event,
+    };
+
+    commit('SAVE_EVENT', { event: fetchedEvent });
+  },
+  updateEvent: async ({ commit }, { id, event }) => {
+    await db.collection('events-2020').doc(id).set(event);
+    const fetchedEvent = {
+      id,
+      ...event,
+    };
+
+    commit('SAVE_EVENT', { event: fetchedEvent });
   },
 };
 
@@ -47,11 +70,12 @@ const getters = {
 
 const mutations = {
   SAVE_ALL_EVENTS: (state, { events }) => {
-    state.events = { ...state.events, ...events };
-    state.allEvents = [...state.allEvents, ...Object.keys(events)];
+    state.events = { ...events };
+    state.allEvents = [...Object.keys(events)];
   },
   SAVE_EVENT: (state, { event }) => {
     Vue.set(state.events, event.id, event);
+    if (!state.allEvents.includes(event.id)) state.allEvents.push(event.id);
   },
 };
 

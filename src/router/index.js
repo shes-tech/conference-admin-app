@@ -23,6 +23,23 @@ const routes = [
         name: 'Events',
         component: () => import(/* webpackChunkName: "main" */ '@/views/Events.vue'),
       },
+      {
+        path: '/events/create',
+        name: 'EventCreate',
+        component: () => import(/* webpackChunkName: "main" */ '@/views/EventEdit.vue'),
+      },
+      {
+        path: '/events/:id',
+        name: 'EventInformation',
+        props: true,
+        component: () => import(/* webpackChunkName: "main" */ '@/views/EventInformation.vue'),
+      },
+      {
+        path: '/events/:id/edit',
+        name: 'EventEdit',
+        props: true,
+        component: () => import(/* webpackChunkName: "main" */ '@/views/EventEdit.vue'),
+      },
     ],
   },
 ];

@@ -5,7 +5,17 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: 'BasePage',
+  methods: {
+    ...mapActions({
+      fetchAllTags: 'tags/fetchAllTags',
+    }),
+  },
+  created() {
+    this.fetchAllTags();
+  },
 };
 </script>

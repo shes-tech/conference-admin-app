@@ -13,6 +13,7 @@
       <v-btn
         color="primary"
         elevation="0"
+        to="/events/create"
       >
         <v-icon left dark>
           mdi-plus
@@ -37,7 +38,13 @@
       :items-per-page="5"
       :loading="isLoading"
       :search="search"
-    ></v-data-table>
+    >
+      <template v-slot:item.title="{ item }">
+        <router-link :to="`/events/${item.id}`">
+          {{ item.title }}
+        </router-link>
+      </template>
+    </v-data-table>
   </div>
 </template>
 

@@ -6,9 +6,15 @@
       </v-btn>
       Sobre o evento
       <v-spacer></v-spacer>
+      <v-btn color="error" icon @click="deleteEvent()">
+        <v-icon dark>
+          mdi-delete
+        </v-icon>
+      </v-btn>
       <v-btn
         color="primary"
         elevation="0"
+        class="ml-2"
         :to="`/events/${id}/edit`"
       >
         <v-icon left dark>
@@ -66,7 +72,18 @@ export default {
   methods: {
     ...mapActions({
       fetchEventById: 'events/fetchEventById',
+      sendDeleteEvent: 'events/deleteEvent',
     }),
+    async deleteEvent() {
+      const { event } = this;
+      // eslint-disable-next-line no-alert
+      const shouldDelete = window.confirm(`Deseja apagar definitivamente o evento "${event.title}"?`);
+      if (!shouldDelete) return;
+
+      const { id } = event;
+      await this.sendDeleteEvent({ id });
+      this.$router.push('/events');
+    },
   },
   computed: {
     ...mapGetters({

@@ -7,7 +7,6 @@
       accept="image/png, image/jpeg"
       truncate-length="30"
       outlined
-      value="abc"
       dense
       @change="resizeImage"
     ></v-file-input>
@@ -21,7 +20,7 @@
         :max-width="maxSize"
       ></v-img>
       <canvas
-        v-else
+        v-else-if="file"
         class="mb-2"
         ref="canvas"
       />
@@ -78,8 +77,6 @@ export default {
       this.$emit('change', downloadUrl);
     },
     deleteBlob() {
-      const { canvas } = this.$refs;
-      canvas.style.display = 'none';
       this.saveBlob(null);
     },
     resizeImage() {
@@ -100,7 +97,6 @@ export default {
           const height = img.height * (maxSize / img.width);
 
           const { canvas } = this.$refs;
-          canvas.style.display = 'inline';
           canvas.width = width;
           canvas.height = height;
           const ctx = canvas.getContext('2d');
@@ -112,8 +108,6 @@ export default {
               lastModified: Date.now(),
             });
             this.saveBlob(image);
-            console.log(blob);
-            console.log(image);
           }, 'image/jpeg', 1);
         };
       };

@@ -104,6 +104,10 @@ export default {
       this.isLoading = false;
     },
     async deleteEvent(event) {
+      // eslint-disable-next-line no-alert
+      const shouldDelete = window.confirm(`Deseja apagar definitivamente o evento "${event.title}"?`);
+      if (!shouldDelete) return;
+
       const { id } = event;
       await this.sendDeleteEvent({ id });
     },

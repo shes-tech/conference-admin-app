@@ -1,6 +1,8 @@
 <template>
-  <v-card class="ma-4">
-    <router-view />
+  <v-card class="base-card">
+    <div class="inner-base ma-4">
+      <router-view />
+    </div>
   </v-card>
 </template>
 
@@ -19,3 +21,11 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.base-card {
+  max-width: 860px;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>

@@ -52,6 +52,21 @@
         {{ item.startTime | timeFirestore }} -
         {{ item.endTime | timeFirestore }}
       </template>
+
+      <template v-slot:item.actions="{ item }">
+        <v-icon
+          small
+          class="mr-2"
+          @click="$router.push(`/events/${item.id}/edit`)"
+        >
+          mdi-pencil
+        </v-icon>
+        <v-icon
+          small
+        >
+          mdi-delete
+        </v-icon>
+      </template>
     </v-data-table>
   </div>
 </template>
@@ -73,6 +88,7 @@ export default {
         },
         { text: 'Trilha', value: 'tag' },
         { text: 'Data', value: 'startTime' },
+        { text: 'Actions', value: 'actions', sortable: false },
       ],
     };
   },

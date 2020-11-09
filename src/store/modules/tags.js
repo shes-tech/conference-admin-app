@@ -30,8 +30,8 @@ const actions = {
     commit('SAVE_TAG', { tag });
   },
   saveTag: async ({ dispatch }, { id, tag }) => {
-    if (id) dispatch('updateTag', { id, tag });
-    else dispatch('createTag', tag);
+    if (id) return dispatch('updateTag', { id, tag });
+    return dispatch('createTag', tag);
   },
   createTag: async ({ commit }, tag) => {
     const document = await db.collection('tags-2020').add(tag);
@@ -50,6 +50,7 @@ const actions = {
     };
 
     commit('SAVE_TAG', { tag: fetchedTag });
+    return fetchedTag;
   },
 };
 

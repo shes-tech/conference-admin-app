@@ -15,7 +15,7 @@
       </v-btn>
     </v-card-title>
 
-    <div class="event-form mx-3 pb-6">
+    <div class="event-form mx-3 pb-8">
       <v-card-subtitle>
         Informações Gerais
       </v-card-subtitle>
@@ -67,18 +67,26 @@
         </span>
       </div>
 
+      <v-card-subtitle class="mt-8">
+        Palestrantes
+      </v-card-subtitle>
+
+      <SpeakersInput v-model="speakers" />
+
     </div>
   </v-form>
 </template>
 
 <script>
 import TimePicker from '@/components/TimePicker.vue';
+import SpeakersInput from '@/components/SpeakersInput.vue';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'EventEdit',
   components: {
     TimePicker,
+    SpeakersInput,
   },
   props: {
     id: {
@@ -118,18 +126,24 @@ export default {
         start: event.startTime.toDate && event.startTime.toDate(),
         end: event.endTime.toDate && event.endTime.toDate(),
       };
+
+      this.speakers = event.speakers;
     },
     async save() {
-      const { id, event, time } = this;
+      const {
+        id, event, time, speakers,
+      } = this;
       const finalEvent = {
         title: event.title,
         description: event.description,
         tag: event.tag,
         startTime: time.start,
         endTime: time.end,
+        speakers,
       };
 
-      await this.saveEvent({ id, event: finalEvent });
+      const createdEvent = await this.saveEvent({ id, event: finalEvent });
+      this.$router.replace(`/events/${id || createdEvent.id}`);
     },
   },
   computed: {

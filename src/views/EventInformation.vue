@@ -22,6 +22,9 @@
       <TextDescription label="Título">
         {{ event.title }}
       </TextDescription>
+      <TextDescription label="Descrição">
+        {{ event.description || '' }}
+      </TextDescription>
       <TextDescription label="Trilha">
         {{ event.tag ? tags[event.tag].name : 'Nenhuma trilha selecionada' }}
       </TextDescription>

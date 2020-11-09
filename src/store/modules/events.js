@@ -38,8 +38,8 @@ const actions = {
     commit('SAVE_EVENT', { event });
   },
   saveEvent: async ({ dispatch }, { id, event }) => {
-    if (id) dispatch('updateEvent', { id, event });
-    else dispatch('createEvent', event);
+    if (id) return dispatch('updateEvent', { id, event });
+    return dispatch('createEvent', event);
   },
   createEvent: async ({ commit }, event) => {
     const document = await db.collection('events-2020').add(event);
@@ -49,6 +49,7 @@ const actions = {
     };
 
     commit('SAVE_EVENT', { event: fetchedEvent });
+    return fetchedEvent;
   },
   updateEvent: async ({ commit }, { id, event }) => {
     await db.collection('events-2020').doc(id).set(event);

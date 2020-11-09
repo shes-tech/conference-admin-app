@@ -96,7 +96,8 @@ export default {
         link: tag.link,
       };
 
-      await this.saveTag({ id, tag: finalTag });
+      const createdTag = await this.saveTag({ id, tag: finalTag });
+      this.$router.replace(`/tags/${id || createdTag.id}`);
     },
   },
   computed: {

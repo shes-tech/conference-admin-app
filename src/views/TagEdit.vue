@@ -1,15 +1,17 @@
 <template>
-  <v-form>
+  <v-form :disabled="isLoading || isSaving">
     <v-card-title>
       <v-btn icon to="/tags" class="mr-3" color="error" exact>
         <v-icon>mdi-close</v-icon>
       </v-btn>
       <span v-if="crudType === 'create'">Criar nova trilha</span>
       <span v-if="crudType === 'edit'">Editar trilha</span>
+      <LoadingCircle v-if="isLoading" />
       <v-spacer></v-spacer>
       <v-btn
         color="success"
         @click="save()"
+        :loading="isSaving"
       >
         Salvar
       </v-btn>
@@ -55,10 +57,15 @@
 </template>
 
 <script>
+import LoadingCircle from '@/components/LoadingCircle.vue';
+
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'TagEdit',
+  components: {
+    LoadingCircle,
+  },
   props: {
     id: {
       type: String,
@@ -68,6 +75,8 @@ export default {
   data() {
     return {
       crudType: null,
+      isLoading: false,
+      isSaving: false,
       tag: {
         name: '',
         description: '',
@@ -81,9 +90,11 @@ export default {
       fetchTagById: 'tags/fetchTagById',
     }),
     async recoverTag(id) {
+      this.isLoading = true;
       await this.fetchTagById(id);
-      const tag = this.tags[id];
+      this.isLoading = false;
 
+      const tag = this.tags[id];
       this.tag.name = tag.name;
       this.tag.description = tag.description;
       this.tag.link = tag.link;
@@ -96,7 +107,10 @@ export default {
         link: tag.link,
       };
 
+      this.isSaving = true;
       const createdTag = await this.saveTag({ id, tag: finalTag });
+      this.isSaving = false;
+
       this.$router.replace(`/tags/${id || createdTag.id}`);
     },
   },

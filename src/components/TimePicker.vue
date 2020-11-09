@@ -10,7 +10,7 @@
       >
         <template v-slot:activator="{ on, attrs }">
           <v-text-field
-            v-model="date"
+            :value="showDate"
             label="Data do evento"
             prepend-inner-icon="mdi-calendar"
             readonly
@@ -61,6 +61,7 @@ import VueTimepicker from 'vue2-timepicker';
 import 'vue2-timepicker/dist/VueTimepicker.css';
 
 import { format, parse } from 'date-fns';
+import pt from 'date-fns/locale/pt';
 
 export default {
   name: 'TimePicker',
@@ -118,6 +119,15 @@ export default {
       this.date = format(input.start, 'yyyy-MM-dd');
       this.start = format(input.start, 'HH:mm');
       this.end = format(input.end, 'HH:mm');
+    },
+  },
+  computed: {
+    showDate() {
+      const { date } = this;
+      if (!date) return '';
+
+      const dateObj = parse(date, 'yyyy-MM-dd', new Date());
+      return format(dateObj, 'EEEE (dd \'de\' MMM)', { locale: pt });
     },
   },
   watch: {

@@ -1,15 +1,18 @@
 <template>
-  <v-form>
+  <v-form :disabled="isLoading || isSaving">
     <v-card-title>
       <v-btn icon :to="pathBack" class="mr-3" color="error" exact>
         <v-icon>mdi-close</v-icon>
       </v-btn>
       <span v-if="crudType === 'create'">Criar novo evento</span>
       <span v-if="crudType === 'edit'">Editar evento</span>
+      <LoadingCircle v-if="isLoading" />
       <v-spacer></v-spacer>
       <v-btn
         color="success"
         @click="save()"
+        :loading="isSaving"
+        :disabled="!isFormValid"
       >
         Salvar
       </v-btn>
@@ -80,6 +83,8 @@
 <script>
 import TimePicker from '@/components/TimePicker.vue';
 import SpeakersInput from '@/components/SpeakersInput.vue';
+import LoadingCircle from '@/components/LoadingCircle.vue';
+
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
@@ -87,6 +92,7 @@ export default {
   components: {
     TimePicker,
     SpeakersInput,
+    LoadingCircle,
   },
   props: {
     id: {
@@ -97,6 +103,8 @@ export default {
   data() {
     return {
       crudType: null,
+      isLoading: false,
+      isSaving: false,
       event: {
         title: '',
         description: '',
@@ -115,8 +123,10 @@ export default {
       fetchEventById: 'events/fetchEventById',
     }),
     async recoverEvent(id) {
+      this.isLoading = true;
       if (!this.events[id]) await this.fetchEventById(id);
       const event = this.events[id];
+      this.isLoading = false;
 
       this.event.title = event.title;
       this.event.description = event.description;
@@ -142,7 +152,10 @@ export default {
         speakers,
       };
 
+      this.isSaving = true;
       const createdEvent = await this.saveEvent({ id, event: finalEvent });
+      this.isSaving = false;
+
       this.$router.replace(`/events/${id || createdEvent.id}`);
     },
   },
@@ -161,6 +174,11 @@ export default {
       const { id } = this;
       if (id) return `/events/${id}`;
       return '/events';
+    },
+    isFormValid() {
+      const { event, time } = this;
+      const isValid = event.title && time.start && time.end;
+      return Boolean(isValid);
     },
   },
   created() {

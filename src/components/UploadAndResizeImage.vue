@@ -12,6 +12,14 @@
     ></v-file-input>
 
     <div class="text-center">
+      <v-progress-circular
+        v-if="isUploading"
+        class="mt-4"
+        color="primary"
+        :size="70"
+        :width="7"
+        indeterminate
+      />
       <v-img
         v-if="typeof file === 'string'"
         class="mx-auto"
@@ -20,7 +28,7 @@
         :max-width="maxSize"
       ></v-img>
       <canvas
-        v-else-if="file"
+        v-else
         class="mb-2"
         ref="canvas"
       />
@@ -41,6 +49,7 @@ export default {
   },
   data() {
     return {
+      isUploading: false,
       uid: null,
       file: this.input || null,
       downloadUrl: null,
@@ -53,12 +62,18 @@ export default {
   },
   methods: {
     async uploadImage(file) {
+      this.isUploading = true;
+
       const id = this.uid;
       const storage = firebase.storage().ref();
       const imageRef = storage.child(`speakers/${id}.jpg`);
       await imageRef.put(file);
       const downloadUrl = await imageRef.getDownloadURL();
       this.downloadUrl = downloadUrl;
+
+      this.isUploading = false;
+      const { canvas } = this.$refs;
+      canvas.style.display = 'inline';
     },
     async deleteUploadedImage() {
       const id = this.uid;
@@ -80,6 +95,9 @@ export default {
       this.saveBlob(null);
     },
     resizeImage() {
+      const { canvas } = this.$refs;
+      canvas.style.display = 'none';
+
       const { file } = this;
       if (!file) {
         this.deleteBlob();
@@ -96,7 +114,6 @@ export default {
           const width = maxSize;
           const height = img.height * (maxSize / img.width);
 
-          const { canvas } = this.$refs;
           canvas.width = width;
           canvas.height = height;
           const ctx = canvas.getContext('2d');

@@ -1,7 +1,7 @@
 <template>
   <v-card class="pa-2" elevation="0" outlined color="grey lighten-3">
     <v-row>
-      <v-col cols="9">
+      <v-col cols="9 pl-6">
         <TextDescription label="Nome">
           {{ speaker.name }}
         </TextDescription>

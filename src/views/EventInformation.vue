@@ -5,6 +5,7 @@
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
       Sobre o evento
+      <LoadingCircle v-if="isLoading" />
       <v-spacer></v-spacer>
       <v-btn color="error" icon @click="deleteEvent()">
         <v-icon dark>
@@ -24,7 +25,10 @@
       </v-btn>
     </v-card-title>
 
-    <v-card-text class="mt-5">
+    <v-card-text v-if="!isEventLoaded" class="text-center py-6">
+      Carregando...
+    </v-card-text>
+    <v-card-text v-else class="mt-5">
       <TextDescription label="Título">
         {{ event.title }}
       </TextDescription>
@@ -59,15 +63,22 @@
 import { mapActions, mapGetters } from 'vuex';
 import TextDescription from '@/components/TextDescription.vue';
 import SpeakerPreviewCard from '@/components/SpeakerPreviewCard.vue';
+import LoadingCircle from '@/components/LoadingCircle.vue';
 
 export default {
   name: 'EventInformation',
   components: {
     TextDescription,
     SpeakerPreviewCard,
+    LoadingCircle,
   },
   props: {
     id: String,
+  },
+  data() {
+    return {
+      isLoading: false,
+    };
   },
   methods: {
     ...mapActions({
@@ -93,10 +104,16 @@ export default {
     event() {
       return this.events[this.id] || {};
     },
+    isEventLoaded() {
+      return Boolean(this.events[this.id]);
+    },
   },
-  created() {
+  async created() {
     const { id } = this;
-    this.fetchEventById(id);
+
+    this.isLoading = true;
+    await this.fetchEventById(id);
+    this.isLoading = false;
   },
 };
 </script>

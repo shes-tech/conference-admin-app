@@ -3,6 +3,7 @@
     <v-card
       v-for="(speaker, index) in speakers"
       :key="index"
+      color="grey lighten-3"
       elevation="0"
       outlined
       class="px-5 pt-1 pb-4 mb-5"

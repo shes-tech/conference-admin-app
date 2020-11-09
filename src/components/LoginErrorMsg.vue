@@ -21,7 +21,6 @@ export default {
       if (!error) return '';
 
       const { code, message } = error;
-      console.log(error, code);
       if (code === 'auth/wrong-password') return 'Senha inválida';
       if (code === 'auth/user-not-found') return 'O usuário informado não existe';
       if (code === 'auth/invalid-email') return 'O endereço de email não é válido';

@@ -3,8 +3,6 @@ import firebase from 'firebase/app';
 
 const db = firebase.firestore();
 
-const INITIAL_FETCH_LIMIT = 4;
-
 const defaultState = {
   events: {},
   allEvents: [],
@@ -18,7 +16,6 @@ const actions = {
     const snapshot = await db.collection('events-2020')
       .orderBy('endTime')
       .orderBy('startTime')
-      .limit(INITIAL_FETCH_LIMIT)
       .get();
 
     snapshot.forEach((doc) => {

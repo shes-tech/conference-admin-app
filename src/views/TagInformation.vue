@@ -1,15 +1,15 @@
 <template>
   <div>
     <v-card-title>
-      <v-btn icon to="/events" class="mr-3" exact>
+      <v-btn icon to="/tags" class="mr-3" exact>
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
-      Sobre o evento
+      Sobre a trilha
       <v-spacer></v-spacer>
       <v-btn
         color="primary"
         elevation="0"
-        :to="`/events/${id}/edit`"
+        :to="`/tags/${id}/edit`"
       >
         <v-icon left dark>
           mdi-pencil
@@ -19,17 +19,22 @@
     </v-card-title>
 
     <v-card-text class="mt-5">
-      <TextDescription label="Título">
-        {{ event.title }}
-      </TextDescription>
-      <TextDescription label="Trilha">
-        {{ event.tag ? tags[event.tag].name : 'Nenhuma trilha selecionada' }}
+      <TextDescription label="Descrição">
+        {{ tag.description }}
       </TextDescription>
 
-      <TextDescription label="Horário">
-        {{ event.startTime | dateFirestore }},
-        {{ event.startTime | timeFirestore }} -
-        {{ event.endTime | timeFirestore }}
+      <TextDescription
+        label="Nome Público"
+        hint="Este nome irá aparecer na lista de eventos para o usuário final"
+      >
+        {{ tag.name }}
+      </TextDescription>
+
+      <TextDescription
+        label="Link"
+        hint="O usuário será redirecionado para este link ao escolher a opção de assistir evento"
+      >
+        <a :href="tag.link" target="_blank">{{ tag.link }}</a>
       </TextDescription>
     </v-card-text>
   </div>
@@ -49,21 +54,20 @@ export default {
   },
   methods: {
     ...mapActions({
-      fetchEventById: 'events/fetchEventById',
+      fetchTagById: 'tags/fetchTagById',
     }),
   },
   computed: {
     ...mapGetters({
-      events: 'events/events',
       tags: 'tags/tags',
     }),
-    event() {
-      return this.events[this.id] || {};
+    tag() {
+      return this.tags[this.id] || {};
     },
   },
   created() {
     const { id } = this;
-    this.fetchEventById(id);
+    this.fetchTagById(id);
   },
 };
 </script>

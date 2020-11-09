@@ -18,6 +18,8 @@ const routes = [
         name: 'Menu',
         component: () => import(/* webpackChunkName: "main" */ '@/views/Menu.vue'),
       },
+
+      // == EVENTS ==
       {
         path: '/events',
         name: 'Events',
@@ -39,6 +41,30 @@ const routes = [
         name: 'EventEdit',
         props: true,
         component: () => import(/* webpackChunkName: "main" */ '@/views/EventEdit.vue'),
+      },
+
+      // == TAGS ==
+      {
+        path: '/tags',
+        name: 'Tags',
+        component: () => import(/* webpackChunkName: "main" */ '@/views/Tags.vue'),
+      },
+      {
+        path: '/tags/create',
+        name: 'TagCreate',
+        component: () => import(/* webpackChunkName: "main" */ '@/views/TagEdit.vue'),
+      },
+      {
+        path: '/tags/:id',
+        name: 'TagInformation',
+        props: true,
+        component: () => import(/* webpackChunkName: "main" */ '@/views/TagInformation.vue'),
+      },
+      {
+        path: '/tags/:id/edit',
+        name: 'TagsEdit',
+        props: true,
+        component: () => import(/* webpackChunkName: "main" */ '@/views/TagEdit.vue'),
       },
     ],
   },

@@ -27,9 +27,7 @@ const actions = {
 
     commit('SAVE_ALL_EVENTS', { events });
   },
-  fetchEventById: async ({ state, commit }, id) => {
-    if (state.events[id]) return;
-
+  fetchEventById: async ({ commit }, id) => {
     const document = await db.collection('events-2020').doc(id).get();
 
     const event = {

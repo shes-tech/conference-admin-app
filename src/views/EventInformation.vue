@@ -34,6 +34,10 @@
         {{ event.startTime | timeFirestore }} -
         {{ event.endTime | timeFirestore }}
       </TextDescription>
+
+      <v-card-title>
+        Palestrantes
+      </v-card-title>
     </v-card-text>
   </div>
 </template>

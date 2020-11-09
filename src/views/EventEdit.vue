@@ -127,7 +127,7 @@ export default {
         end: event.endTime.toDate && event.endTime.toDate(),
       };
 
-      this.speakers = event.speakers;
+      this.speakers = [...event.speakers];
     },
     async save() {
       const {

@@ -63,6 +63,7 @@
         </v-icon>
         <v-icon
           small
+          @click="deleteEvent(item)"
         >
           mdi-delete
         </v-icon>
@@ -95,11 +96,16 @@ export default {
   methods: {
     ...mapActions({
       fetchAllEvents: 'events/fetchAllEvents',
+      sendDeleteEvent: 'events/deleteEvent',
     }),
     async loadEvents() {
       this.isLoading = true;
       await this.fetchAllEvents();
       this.isLoading = false;
+    },
+    async deleteEvent(event) {
+      const { id } = event;
+      await this.sendDeleteEvent({ id });
     },
   },
   computed: {

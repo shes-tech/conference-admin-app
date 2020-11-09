@@ -60,6 +60,10 @@ const actions = {
 
     commit('SAVE_EVENT', { event: fetchedEvent });
   },
+  deleteEvent: async ({ commit }, { id }) => {
+    await db.collection('events-2020').doc(id).delete();
+    commit('DELETE_EVENT', { id });
+  },
 };
 
 const getters = {
@@ -77,6 +81,10 @@ const mutations = {
     if (state.allEvents.length !== 0 && !state.allEvents.includes(event.id)) {
       state.allEvents.push(event.id);
     }
+  },
+  DELETE_EVENT: (state, { id }) => {
+    const index = state.allEvents.indexOf(id);
+    if (index) state.allEvents.splice(index, 1);
   },
 };
 

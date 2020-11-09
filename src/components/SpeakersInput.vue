@@ -68,12 +68,20 @@ export default {
     prop: 'input',
     event: 'change',
   },
+  props: {
+    input: Array,
+  },
   data() {
     return {
-      speakers: [this.getDefaultSpeaker()],
+      speakers: this.getInitialSpeakers(),
     };
   },
   methods: {
+    getInitialSpeakers() {
+      const { input } = this;
+      if (input && input.length !== 0) return [...input];
+      return [this.getDefaultSpeaker()];
+    },
     getDefaultSpeaker() {
       return {
         name: '',
@@ -93,6 +101,11 @@ export default {
     },
     change() {
       this.$emit('change', this.speakers);
+    },
+  },
+  watch: {
+    input(newValue) {
+      this.speakers = [...newValue];
     },
   },
 };

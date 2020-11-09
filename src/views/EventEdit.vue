@@ -1,7 +1,7 @@
 <template>
   <v-form>
     <v-card-title>
-      <v-btn icon to="/events" class="mr-3" color="error" exact>
+      <v-btn icon :to="pathBack" class="mr-3" color="error" exact>
         <v-icon>mdi-close</v-icon>
       </v-btn>
       <span v-if="crudType === 'create'">Criar novo evento</span>
@@ -115,7 +115,7 @@ export default {
       fetchEventById: 'events/fetchEventById',
     }),
     async recoverEvent(id) {
-      await this.fetchEventById(id);
+      if (!this.events[id]) await this.fetchEventById(id);
       const event = this.events[id];
 
       this.event.title = event.title;
@@ -156,6 +156,11 @@ export default {
       const id = this.event.tag;
       if (id) return this.tags[id];
       return {};
+    },
+    pathBack() {
+      const { id } = this;
+      if (id) return `/events/${id}`;
+      return '/events';
     },
   },
   created() {

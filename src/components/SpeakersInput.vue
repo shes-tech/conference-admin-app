@@ -30,28 +30,42 @@
         class="mb-2"
         @change="change()"
       ></v-text-field>
-      <v-text-field
+      <v-textarea
         v-model="speakers[index].minibio"
         label="Minibio"
         hide-details
+        rows="2"
         outlined
         dense
         @change="change()"
-      ></v-text-field>
+      ></v-textarea>
 
-      <v-card-subtitle>
-        Redes Sociais
-      </v-card-subtitle>
-      <v-text-field v-model="speaker.social.site" label="Site" class="mb-2"
-        hide-details outlined dense @change="change()" />
-      <v-text-field v-model="speaker.social.linkedin" label="LinkedIn" class="mb-2"
-        hide-details outlined dense @change="change()" />
-      <v-text-field v-model="speaker.social.instagram" label="Instagram" class="mb-2"
-        hide-details outlined dense @change="change()" />
-      <v-text-field v-model="speaker.social.twitter" label="Twitter" class="mb-2"
-        hide-details outlined dense @change="change()" />
-      <v-text-field v-model="speaker.social.facebook" label="Facebook"
-        hide-details outlined dense @change="change()" />
+      <v-row>
+        <v-col cols="6">
+          <v-card-subtitle>
+            Foto
+          </v-card-subtitle>
+          <UploadAndResizeImage
+            v-model="speakers[index].picture"
+          />
+        </v-col>
+
+        <v-col cols="6">
+          <v-card-subtitle>
+            Redes Sociais
+          </v-card-subtitle>
+          <v-text-field v-model="speaker.social.site" label="Site" class="mb-2"
+            hide-details outlined dense @change="change()" />
+          <v-text-field v-model="speaker.social.linkedin" label="LinkedIn" class="mb-2"
+            hide-details outlined dense @change="change()" />
+          <v-text-field v-model="speaker.social.instagram" label="Instagram" class="mb-2"
+            hide-details outlined dense @change="change()" />
+          <v-text-field v-model="speaker.social.twitter" label="Twitter" class="mb-2"
+            hide-details outlined dense @change="change()" />
+          <v-text-field v-model="speaker.social.facebook" label="Facebook"
+            hide-details outlined dense @change="change()" />
+        </v-col>
+      </v-row>
     </v-card>
 
     <v-btn block @click="add()" depressed>
@@ -62,8 +76,13 @@
 </template>
 
 <script>
+import UploadAndResizeImage from '@/components/UploadAndResizeImage.vue';
+
 export default {
   name: 'SpeakersInput',
+  components: {
+    UploadAndResizeImage,
+  },
   model: {
     prop: 'input',
     event: 'change',
@@ -86,6 +105,7 @@ export default {
       return {
         name: '',
         minibio: '',
+        picture: null,
         social: {
         },
       };

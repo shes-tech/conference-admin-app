@@ -38,6 +38,13 @@
       <v-card-title>
         Palestrantes
       </v-card-title>
+
+      <SpeakerPreviewCard
+        v-for="(speaker, index) in event.speakers"
+        :key="index"
+        :speaker="speaker"
+        class="mb-3"
+      />
     </v-card-text>
   </div>
 </template>
@@ -45,11 +52,13 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import TextDescription from '@/components/TextDescription.vue';
+import SpeakerPreviewCard from '@/components/SpeakerPreviewCard.vue';
 
 export default {
   name: 'EventInformation',
   components: {
     TextDescription,
+    SpeakerPreviewCard,
   },
   props: {
     id: String,

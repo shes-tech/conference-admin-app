@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
+import store from '../store';
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -66,6 +68,15 @@ const routes = [
         props: true,
         component: () => import(/* webpackChunkName: "main" */ '@/views/TagEdit.vue'),
       },
+
+      {
+        path: '*',
+        beforeEnter: (to, from, next) => {
+          const isAuthenticated = store.getters['auth/isUserAuthenticated'];
+          if (isAuthenticated) next({ name: 'Menu' });
+          else next({ name: 'Login' });
+        },
+      },
     ],
   },
 ];
@@ -74,6 +85,13 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = store.getters['auth/isUserAuthenticated'];
+  if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' });
+  if (to.name === 'Login' && isAuthenticated) next({ name: 'Menu' });
+  else next();
 });
 
 export default router;

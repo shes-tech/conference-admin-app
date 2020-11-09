@@ -1,18 +1,20 @@
 // import Vue from 'vue';
 import firebase from 'firebase/app';
 
-// const db = firebase.firestore();
-// const auth = firebase.auth();
+const userLocalStorage = JSON.parse(localStorage.getItem('user'));
 
 const defaultState = {
-  user: null,
+  user: userLocalStorage || null,
 };
 
 const actions = {
   login: async ({ commit }, { email, password }) => {
     const user = await firebase.auth().signInWithEmailAndPassword(email, password);
     commit('SET_USER', user);
-    console.log(user);
+  },
+  logout: async ({ commit }) => {
+    await firebase.auth().signOut();
+    commit('DELETE_USER');
   },
 };
 
@@ -23,6 +25,11 @@ const getters = {
 const mutations = {
   SET_USER: (state, user) => {
     state.user = user;
+    localStorage.setItem('user', JSON.stringify(user));
+  },
+  DELETE_USER: (state) => {
+    state.user = null;
+    localStorage.clear();
   },
 };
 

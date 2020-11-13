@@ -99,7 +99,7 @@ export default {
   methods: {
     getInitialSpeakers() {
       const { input } = this;
-      if (input && input.length !== 0) return [...input];
+      if (input && input.length !== 0) return this.getInputSpeaker();
       return [this.getDefaultSpeaker()];
     },
     getDefaultSpeaker() {
@@ -110,6 +110,18 @@ export default {
         social: {
         },
       };
+    },
+    getInputSpeaker() {
+      const { input } = this;
+      if (!input || input.length === 0) return [];
+
+      return input.map((speaker) => {
+        const social = speaker.social || {};
+        return {
+          ...speaker,
+          social,
+        };
+      });
     },
     add() {
       const defaultSpeaker = this.getDefaultSpeaker();

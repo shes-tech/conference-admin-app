@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-cloak @drop.prevent="addDropFile" @dragover.prevent>
     <v-file-input
       v-model="file"
       small-chips
@@ -61,6 +61,11 @@ export default {
     this.uid = uid();
   },
   methods: {
+    addDropFile(e) {
+      // eslint-disable-next-line prefer-destructuring
+      this.file = e.dataTransfer.files[0];
+      this.resizeImage();
+    },
     async uploadImage(file) {
       this.isUploading = true;
 

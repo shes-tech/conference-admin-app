@@ -48,6 +48,7 @@
           </v-card-subtitle>
           <UploadAndResizeImage
             v-model="speakers[index].picture"
+            @change="change()"
           />
         </v-col>
 
@@ -115,13 +116,11 @@ export default {
       const { input } = this;
       if (!input || input.length === 0) return [];
 
-      return input.map((speaker) => {
-        const social = speaker.social || {};
-        return {
-          ...speaker,
-          social,
-        };
-      });
+      return input.map((speaker) => ({
+        social: {},
+        picture: null,
+        ...speaker,
+      }));
     },
     add() {
       const defaultSpeaker = this.getDefaultSpeaker();

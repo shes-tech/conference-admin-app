@@ -22,20 +22,50 @@
       </v-btn>
     </v-card-title>
 
-    <v-card-title>
-      <v-text-field
-        v-model="search"
-        append-icon="mdi-magnify"
-        label="Pesquisar"
-        single-line
-        hide-details
-      ></v-text-field>
-    </v-card-title>
+    <v-row class="mx-1">
+      <v-col cols="12" class="pb-0">
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Pesquisar"
+          single-line
+          hide-details
+          outlined
+          filled
+          dense
+        ></v-text-field>
+      </v-col>
+      <v-col cols="6">
+        <v-select
+          v-model="filters.day"
+          :items="daysOptions"
+          label="Dia"
+          item-text="label"
+          item-value="value"
+          hide-details
+          clearable
+          outlined
+          filled
+          dense
+        ></v-select>
+      </v-col>
+      <v-col cols="6">
+        <v-select
+          v-model="filters.tag"
+          :items="tagsOptions"
+          label="Palco"
+          hide-details
+          clearable
+          outlined
+          filled
+          dense
+        ></v-select>
+      </v-col>
+    </v-row>
 
     <v-data-table
       :headers="headers"
-      :items="allEvents"
-      :items-per-page="5"
+      :items="filteredEvents"
       :loading="isLoading"
       :search="search"
     >
@@ -43,9 +73,6 @@
         <router-link :to="`/events/${item.id}`">
           {{ item.title }}
         </router-link>
-      </template>
-      <template v-slot:item.tag="{ item }">
-        {{ item.tag ? tags[item.tag].name : '' }}
       </template>
       <template v-slot:item.startTime="{ item }">
         {{ item.startTime | shortDateFirestore }},
@@ -75,6 +102,8 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
+import { isSameDay } from 'date-fns';
+
 export default {
   name: 'Events',
   data() {
@@ -91,6 +120,17 @@ export default {
         { text: 'Data', value: 'startTime' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
+      daysOptions: [
+        { label: 'Terça 17/11', value: new Date(2020, 10, 17) },
+        { label: 'Quarta 18/11', value: new Date(2020, 10, 18) },
+        { label: 'Quinta 19/11', value: new Date(2020, 10, 19) },
+        { label: 'Sexta 20/11', value: new Date(2020, 10, 20) },
+        { label: 'Sábado 21/11', value: new Date(2020, 10, 21) },
+      ],
+      filters: {
+        day: null,
+        tag: null,
+      },
     };
   },
   methods: {
@@ -117,6 +157,30 @@ export default {
       allEvents: 'events/allEvents',
       tags: 'tags/tags',
     }),
+    tagsOptions() {
+      const tags = [];
+      const allTags = Object.values(this.tags);
+
+      allTags.forEach((tag) => {
+        const label = tag.name;
+        const index = tags.indexOf(label);
+        if (index === -1) tags.push(label);
+      });
+
+      return tags;
+    },
+    filteredEvents() {
+      let events = this.allEvents.map((event) => ({
+        ...event,
+        tag: event.tag ? this.tags[event.tag].name : '',
+      }));
+
+      const { day, tag } = this.filters;
+      if (day) events = events.filter((event) => isSameDay(event.startTime.toDate(), day));
+      if (tag) events = events.filter((event) => event.tag === tag);
+
+      return events;
+    },
   },
   created() {
     if (this.allEvents.length === 0) this.loadEvents();

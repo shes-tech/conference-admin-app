@@ -81,7 +81,7 @@ const mutations = {
   },
   DELETE_EVENT: (state, { id }) => {
     const index = state.allEvents.indexOf(id);
-    if (index) state.allEvents.splice(index, 1);
+    if (index !== -1) state.allEvents.splice(index, 1);
   },
 };
 

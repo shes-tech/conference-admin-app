@@ -35,7 +35,7 @@
         v-model="speakers[index].minibio"
         label="Minibio"
         hide-details
-        rows="2"
+        rows="3"
         outlined
         dense
         @change="change()"

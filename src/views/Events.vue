@@ -100,7 +100,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 import { isSameDay } from 'date-fns';
 
@@ -138,6 +138,9 @@ export default {
       fetchAllEvents: 'events/fetchAllEvents',
       sendDeleteEvent: 'events/deleteEvent',
     }),
+    ...mapMutations({
+      saveFilters: 'filters/SET_FILTERS_EVENTS_LIST',
+    }),
     async loadEvents() {
       this.isLoading = true;
       await this.fetchAllEvents();
@@ -156,6 +159,7 @@ export default {
     ...mapGetters({
       allEvents: 'events/allEvents',
       tags: 'tags/tags',
+      storedFilters: 'filters/eventsList',
     }),
     tagsOptions() {
       const tags = [];
@@ -184,6 +188,11 @@ export default {
   },
   created() {
     if (this.allEvents.length === 0) this.loadEvents();
+    if (this.storedFilters) this.filters = { ...this.storedFilters };
+  },
+  beforeRouteLeave(to, from, next) {
+    this.saveFilters(this.filters);
+    next();
   },
 };
 </script>

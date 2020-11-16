@@ -26,9 +26,14 @@ export default {
     return {
       links: [
         {
-          title: 'Eventos',
+          title: 'Lista de Eventos',
           description: 'Visualizar e alterar lista de eventos.',
           path: '/events',
+        },
+        {
+          title: 'Calendário de Eventos',
+          description: 'Visualizar eventos no formato de calendário.',
+          path: '/events-calendar',
         },
         {
           title: 'Trilhas',

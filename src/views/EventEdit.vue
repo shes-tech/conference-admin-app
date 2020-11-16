@@ -103,6 +103,7 @@ export default {
   data() {
     return {
       crudType: null,
+      listPage: 'list',
       isLoading: false,
       isSaving: false,
       event: {
@@ -156,7 +157,8 @@ export default {
       const createdEvent = await this.saveEvent({ id, event: finalEvent });
       this.isSaving = false;
 
-      this.$router.replace(`/events/${id || createdEvent.id}`);
+      const { listPage } = this;
+      this.$router.replace(`/events/${id || createdEvent.id}?lastView=${listPage}`);
     },
   },
   computed: {
@@ -198,6 +200,10 @@ export default {
     } else {
       this.crudType = 'create';
     }
+
+    const { lastView, lastDay } = this.$route.query;
+    if (lastView === 'calendar') this.listPage = 'calendar';
+    if (lastDay === 'calendar') this.calendarLastDay = lastDay;
   },
 };
 </script>

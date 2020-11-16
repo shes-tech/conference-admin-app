@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card-title>
-      <v-btn icon to="/events" class="mr-3" exact>
+      <v-btn icon :to="pathBack" class="mr-3" exact>
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
       Sobre o evento
@@ -16,7 +16,7 @@
         color="primary"
         elevation="0"
         class="ml-2"
-        :to="`/events/${id}/edit`"
+        :to="`/events/${id}/edit?lastView=${listPage}`"
       >
         <v-icon left dark>
           mdi-pencil
@@ -78,6 +78,8 @@ export default {
   data() {
     return {
       isLoading: false,
+      listPage: 'list',
+      calendarLastDay: null,
     };
   },
   methods: {
@@ -107,6 +109,15 @@ export default {
     isEventLoaded() {
       return Boolean(this.events[this.id]);
     },
+    pathBack() {
+      const { listPage, calendarLastDay } = this;
+      if (listPage === 'calendar') {
+        if (calendarLastDay) return `/events-calendar?day=${calendarLastDay}`;
+        return '/events-calendar';
+      }
+
+      return '/events';
+    },
   },
   async created() {
     const { id } = this;
@@ -114,6 +125,10 @@ export default {
     this.isLoading = true;
     await this.fetchEventById(id);
     this.isLoading = false;
+
+    const { lastView, lastDay } = this.$route.query;
+    if (lastView === 'calendar') this.listPage = 'calendar';
+    if (lastDay) this.calendarLastDay = lastDay;
   },
 };
 </script>

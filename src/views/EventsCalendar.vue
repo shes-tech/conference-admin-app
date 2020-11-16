@@ -22,9 +22,7 @@
       </v-btn>
     </v-card-title>
 
-    <v-toolbar
-      flat
-    >
+    <v-toolbar v-if="!isLoading" flat>
       <v-btn
         outlined
         class="mr-4"
@@ -61,7 +59,11 @@
       <v-spacer></v-spacer>
     </v-toolbar>
 
+    <v-card-text v-if="isLoading" class="text-center py-6">
+      Carregando...
+    </v-card-text>
     <v-calendar
+      v-else
       v-model="calendarDay"
       ref="calendar"
       color="primary"

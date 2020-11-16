@@ -1,14 +1,13 @@
 <template>
   <div class="pb-5">
-    <v-card-title>
+    <v-card-title class="mb-4">
       Para onde deseja ir?
     </v-card-title>
-    <h2></h2>
 
     <div
       v-for="(link, index) in links"
       :key="index"
-      class="pl-3 mb-8"
+      class="pl-3 mb-6"
       outlined
     >
       <v-btn color="primary" text :to="link.path" class="px-3" x-large>

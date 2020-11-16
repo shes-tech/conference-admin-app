@@ -41,6 +41,7 @@ const actions = {
     };
 
     commit('SAVE_TAG', { tag: fetchedTag });
+    return fetchedTag;
   },
   updateTag: async ({ commit }, { id, tag }) => {
     await db.collection('tags-2020').doc(id).set(tag);

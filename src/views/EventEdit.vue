@@ -54,7 +54,7 @@
 
       <v-select
         v-model="event.tag"
-        :items="allTags"
+        :items="allTagsSorted"
         label="Trilha"
         item-text="description"
         item-value="id"
@@ -165,6 +165,16 @@ export default {
       tags: 'tags/tags',
       allTags: 'tags/allTags',
     }),
+    allTagsSorted() {
+      const tags = this.allTags;
+      return tags.sort((a, b) => {
+        const keyA = a.description;
+        const keyB = b.description;
+        if (keyA < keyB) return -1;
+        if (keyA > keyB) return 1;
+        return 0;
+      });
+    },
     selectedTag() {
       const id = this.event.tag;
       if (id) return this.tags[id];

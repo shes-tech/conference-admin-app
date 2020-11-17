@@ -76,8 +76,8 @@ export default {
   data() {
     return {
       date: '2020-11-17',
-      start: null,
-      end: null,
+      start: '00:00',
+      end: '00:00',
       final: {
         start: null,
         end: null,
@@ -90,15 +90,16 @@ export default {
       this.generateOutput();
     },
     generateOutput() {
+      debugger;
       const { date, start, end } = this;
       if (!date || !start || !end) return {};
-      if (!start.HH || !end.HH) return {};
-      if (!start.mm || !end.mm) return {};
+      if (start.length !== 5) return {};
+      if (end.length !== 5) return {};
 
       const formatString = 'yyyy-MM-dd HH:mm x';
       const final = {
-        start: parse(`${date} ${start.HH}:${start.mm} -03`, formatString, new Date()),
-        end: parse(`${date} ${end.HH}:${end.mm} -03`, formatString, new Date()),
+        start: parse(`${date} ${start} -03`, formatString, new Date()),
+        end: parse(`${date} ${end} -03`, formatString, new Date()),
       };
 
       this.final = final;

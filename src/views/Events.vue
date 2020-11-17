@@ -8,8 +8,14 @@
       >
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
-      Eventos
+      Lista de Eventos
       <v-spacer></v-spacer>
+      <v-btn color="primary" to="/events-calendar" class="mr-2" outlined>
+        <v-icon left dark>
+          mdi-calendar
+        </v-icon>
+        Ver em calendário
+      </v-btn>
       <v-btn
         color="primary"
         elevation="0"

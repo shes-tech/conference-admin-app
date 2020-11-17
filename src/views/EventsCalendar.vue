@@ -10,6 +10,12 @@
       </v-btn>
       Calendário de Eventos
       <v-spacer></v-spacer>
+      <v-btn color="primary" to="/events" class="mr-2" outlined>
+        <v-icon left dark>
+          mdi-format-list-bulleted
+        </v-icon>
+        Ver em lista
+      </v-btn>
       <v-btn
         color="primary"
         elevation="0"

@@ -27,15 +27,17 @@
         v-model="search"
         append-icon="mdi-magnify"
         label="Pesquisar"
-        single-line
         hide-details
+        single-line
+        outlined
+        filled
+        dense
       ></v-text-field>
     </v-card-title>
 
     <v-data-table
       :headers="headers"
       :items="allTags"
-      :items-per-page="5"
       :loading="isLoading"
       :search="search"
     >

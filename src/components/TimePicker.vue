@@ -90,7 +90,6 @@ export default {
       this.generateOutput();
     },
     generateOutput() {
-      debugger;
       const { date, start, end } = this;
       if (!date || !start || !end) return {};
       if (start.length !== 5) return {};

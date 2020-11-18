@@ -17,6 +17,10 @@
       </v-btn>
     </v-card-title>
 
+    <v-alert v-if="errorMsg" type="error" class="mt-3" dense>
+      Erro: {{ errorMsg }}
+    </v-alert>
+
     <div class="tag-form mx-3 pb-6">
       <v-card-subtitle>
         Informações do Painel de Administração
@@ -77,6 +81,7 @@ export default {
       crudType: null,
       isLoading: false,
       isSaving: false,
+      errorMsg: null,
       tag: {
         name: '',
         description: '',
@@ -107,11 +112,17 @@ export default {
         link: tag.link,
       };
 
-      this.isSaving = true;
-      const createdTag = await this.saveTag({ id, tag: finalTag });
-      this.isSaving = false;
+      try {
+        this.isSaving = true;
+        this.errorMsg = null;
+        const createdTag = await this.saveTag({ id, tag: finalTag });
 
-      this.$router.replace(`/tags/${id || createdTag.id}`);
+        this.$router.replace(`/tags/${id || createdTag.id}`);
+      } catch (err) {
+        this.errorMsg = err;
+      } finally {
+        this.isSaving = false;
+      }
     },
   },
   computed: {

@@ -18,6 +18,10 @@
       </v-btn>
     </v-card-title>
 
+    <v-alert v-if="errorMsg" type="error" class="mt-3" dense>
+      Erro: {{ errorMsg }}
+    </v-alert>
+
     <div class="event-form mx-3 pb-8">
       <v-card-subtitle>
         Informações Gerais
@@ -106,6 +110,7 @@ export default {
       listPage: 'list',
       isLoading: false,
       isSaving: false,
+      errorMsg: null,
       event: {
         title: '',
         description: '',
@@ -153,12 +158,18 @@ export default {
         speakers,
       };
 
-      this.isSaving = true;
-      const createdEvent = await this.saveEvent({ id, event: finalEvent });
-      this.isSaving = false;
+      try {
+        this.isSaving = true;
+        this.errorMsg = null;
+        const createdEvent = await this.saveEvent({ id, event: finalEvent });
 
-      const { listPage } = this;
-      this.$router.replace(`/events/${id || createdEvent.id}?lastView=${listPage}`);
+        const { listPage } = this;
+        this.$router.replace(`/events/${id || createdEvent.id}?lastView=${listPage}`);
+      } catch (err) {
+        this.errorMsg = err;
+      } finally {
+        this.isSaving = false;
+      }
     },
   },
   computed: {

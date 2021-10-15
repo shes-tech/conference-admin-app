@@ -6,7 +6,7 @@ Este projeto tem como objetivo criar uma aplicação web para o controle dos eve
 
 ![Celular mostrando duas telas da aplicação](../assets/app-sample.png?raw=true)
 
-**DEMO**: [https://shestech.netlify.com](https://shestech.netlify.com)
+**DEMO**: [https://shestech-admin.netlify.app/](https://shestech-admin.netlify.app/)
 
 
 ## Sobre o projeto

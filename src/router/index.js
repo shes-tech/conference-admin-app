@@ -12,6 +12,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "login" */ '@/views/Login.vue'),
   },
   {
+    path: '/recover-password',
+    name: 'RecoverPassword',
+    component: () => import(/* webpackChunkName: "login" */ '@/views/RecoverPassword.vue'),
+  },
+  {
     path: '/',
     component: () => import(/* webpackChunkName: "main" */ '@/views/BasePage.vue'),
     children: [
@@ -94,8 +99,10 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const isAuthenticated = store.getters['auth/isUserAuthenticated'];
-  if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' });
   if (to.name === 'Login' && isAuthenticated) next({ name: 'Menu' });
+  else if (to.name === 'RecoverPassword' && isAuthenticated) next({ name: 'Menu' });
+  else if (to.name === 'RecoverPassword' && !isAuthenticated) next();
+  else if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' });
   else next();
 });
 

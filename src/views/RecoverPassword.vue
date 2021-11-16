@@ -2,13 +2,21 @@
   <v-container fill-height fluid>
     <v-row align="center" justify="center">
       <v-col cols="6" xs=12 md="4" lg="3">
-        <v-form v-model="isFormValid" @submit.prevent="login()">
+        <v-form v-model="isFormValid" @submit.prevent="recoverPassword()">
           <v-img
             alt="Vuetify Logo"
             class="shrink mb-7"
             contain
             src="@/assets/logo.png"
           />
+
+          <v-card-title>
+            <v-btn icon to="/login" class="mr-3" exact>
+              <v-icon>mdi-arrow-left</v-icon>
+            </v-btn>
+            <span class="headline">Recuperar Senha</span>
+          </v-card-title>
+
           <v-text-field
             v-model="email"
             label="Email"
@@ -19,29 +27,12 @@
             required
             @change="clearError()"
           ></v-text-field>
-          <v-text-field
-            v-model="password"
-            label="Senha"
-            type="password"
-            class="mb-6"
-            hide-details
-            outlined
-            dense
-            required
-            @change="clearError()"
-          ></v-text-field>
           <v-btn type="submit" block color="primary" :loading="isValidatingLogin">
-            Login
-          </v-btn>
-          <v-btn
-            class="mt-2"
-            type="submit" color="primary" to="/recover-password"
-            block text small
-          >
             Recuperar Senha
           </v-btn>
 
           <LoginErrorMsg class="mt-6" :error="errorMsg" />
+          <SuccessMsg class="mt-6" :msg="successMsg" />
         </v-form>
       </v-col>
     </v-row>
@@ -50,38 +41,42 @@
 
 <script>
 import LoginErrorMsg from '@/components/LoginErrorMsg.vue';
+import SuccessMsg from '@/components/SuccessMsg.vue';
 
 import { mapActions } from 'vuex';
 
 export default {
-  name: 'Login',
+  name: 'RecoverPassword',
   components: {
     LoginErrorMsg,
+    SuccessMsg,
   },
   data() {
     return {
       isValidatingLogin: false,
       isFormValid: true,
       errorMsg: null,
+      successMsg: null,
       email: '',
-      password: '',
     };
   },
   methods: {
     ...mapActions({
-      sendLogin: 'auth/login',
+      sendRecoverPassword: 'auth/recoverPassword',
     }),
     clearError() {
       this.errorMsg = null;
     },
-    async login() {
+    async recoverPassword() {
       this.isValidatingLogin = true;
       this.clearError();
 
       try {
-        const { email, password } = this;
-        await this.sendLogin({ email, password });
-        this.$router.replace('/menu');
+        const { email } = this;
+        await this.sendRecoverPassword({ email });
+        this.successMsg = {
+          code: 'auth/reset-password-email-sent',
+        };
       } catch (err) {
         this.errorMsg = err;
       } finally {

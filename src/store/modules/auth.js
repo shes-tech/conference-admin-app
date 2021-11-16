@@ -16,6 +16,9 @@ const actions = {
     await firebase.auth().signOut();
     commit('DELETE_USER');
   },
+  recoverPassword: async (parsers, { email }) => {
+    await firebase.auth().sendPasswordResetEmail(email);
+  },
 };
 
 const getters = {

@@ -7,7 +7,7 @@
             alt="Vuetify Logo"
             class="shrink mr-2"
             contain
-            src="https://static1.squarespace.com/static/583ca58137c5810ef26a2e95/t/5f5070f146e3c302a0c2a1f9/1604689057447/?format=320w"
+            src="@/assets/logo.png"
             width="100"
           />
         </a>

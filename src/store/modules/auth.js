@@ -1,6 +1,7 @@
 // import Vue from 'vue';
 import firebase from 'firebase/app';
 
+const db = firebase.firestore();
 const userLocalStorage = JSON.parse(localStorage.getItem('user'));
 
 const defaultState = {
@@ -9,7 +10,16 @@ const defaultState = {
 
 const actions = {
   login: async ({ commit }, { email, password }) => {
-    const user = await firebase.auth().signInWithEmailAndPassword(email, password);
+    const userAuth = await firebase.auth().signInWithEmailAndPassword(email, password);
+    const userId = userAuth.user.uid;
+
+    const userRecord = await db.collection('users').doc(userId).get();
+    const userData = userRecord.data();
+
+    const user = {
+      id: userAuth.user.uid,
+      permissions: userData.permissions,
+    };
     commit('SET_USER', user);
   },
   logout: async ({ commit }) => {

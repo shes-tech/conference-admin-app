@@ -71,7 +71,7 @@ export default {
 
       const id = this.uid;
       const storage = firebase.storage().ref();
-      const imageRef = storage.child(`speakers/${id}.jpg`);
+      const imageRef = storage.child(`speakers-2021/${id}.jpg`);
       await imageRef.put(file);
       const downloadUrl = await imageRef.getDownloadURL();
       this.downloadUrl = downloadUrl;

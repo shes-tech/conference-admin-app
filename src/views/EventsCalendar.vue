@@ -33,7 +33,7 @@
         outlined
         class="mr-4"
         color="grey darken-2"
-        @click="calendarDay = '2020-11-17'"
+        @click="calendarDay = '2021-11-17'"
       >
         Primeiro Dia
       </v-btn>
@@ -95,7 +95,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      calendarDay: '2020-11-17',
+      calendarDay: '2021-11-17',
       search: '',
       headers: [
         {
@@ -108,11 +108,10 @@ export default {
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       daysOptions: [
-        { label: 'Terça 17/11', value: new Date(2020, 10, 17) },
-        { label: 'Quarta 18/11', value: new Date(2020, 10, 18) },
-        { label: 'Quinta 19/11', value: new Date(2020, 10, 19) },
-        { label: 'Sexta 20/11', value: new Date(2020, 10, 20) },
-        { label: 'Sábado 21/11', value: new Date(2020, 10, 21) },
+        { label: 'Quarta 17/11', value: new Date(2021, 10, 17) },
+        { label: 'Quinta 18/11', value: new Date(2021, 10, 18) },
+        { label: 'Sexta 19/11', value: new Date(2021, 10, 19) },
+        { label: 'Sábado 20/11', value: new Date(2021, 10, 20) },
       ],
       filters: {
         day: null,
@@ -162,12 +161,10 @@ export default {
           return '#1446A0';
         case 'Engage Arena':
           return '#DB3069';
-        case "She's work on":
-          return '#FAA613';
-        case 'Eventos Extras':
-          return '#4F345A';
-        case 'Empower Arena':
+        case 'Hands-On':
           return '#315C2B';
+        case 'Innovate Arena':
+          return '#4F345A';
         default:
           return '#3C3C3B';
       }

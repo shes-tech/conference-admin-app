@@ -36,7 +36,11 @@
         {{ event.description || '' }}
       </TextDescription>
       <TextDescription label="Trilha">
-        {{ event.tag ? tags[event.tag].name : 'Nenhuma trilha selecionada' }}
+        {{
+          event.tag ?
+          `${tags[event.tag].name} (${tags[event.tag].description})` :
+          'Nenhuma trilha selecionada'
+        }}
       </TextDescription>
 
       <TextDescription label="Horário">

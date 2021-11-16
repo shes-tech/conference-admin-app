@@ -23,9 +23,7 @@
     </v-alert>
 
     <div class="event-form mx-3 pb-8">
-      <v-card-subtitle>
-        Informações Gerais
-      </v-card-subtitle>
+      <v-card-subtitle> Informações Gerais </v-card-subtitle>
 
       <v-text-field
         v-model="event.title"
@@ -44,17 +42,11 @@
         dense
       ></v-textarea>
 
-      <v-card-subtitle>
-        Horários
-      </v-card-subtitle>
+      <v-card-subtitle> Horários </v-card-subtitle>
 
-      <TimePicker
-        v-model="time"
-      />
+      <TimePicker v-model="time" />
 
-      <v-card-subtitle>
-        Trilha e Link do evento
-      </v-card-subtitle>
+      <v-card-subtitle> Trilha e Link do evento </v-card-subtitle>
 
       <v-select
         v-model="event.tag"
@@ -67,19 +59,18 @@
       ></v-select>
 
       <div v-if="event.tag" class="tag-info mt-3 ml-3 mb-4">
-        <span>O nome da trilha aparecerá como: <b>{{ selectedTag.name }}</b></span>
+        <span
+          >O nome da trilha aparecerá como: <b>{{ selectedTag.name }}</b></span
+        >
         <span>
           Link:
           <a :href="selectedTag.link" target="_blank">{{ selectedTag.link }}</a>
         </span>
       </div>
 
-      <v-card-subtitle class="mt-8">
-        Palestrantes
-      </v-card-subtitle>
+      <v-card-subtitle class="mt-8"> Palestrantes </v-card-subtitle>
 
       <SpeakersInput v-model="speakers" />
-
     </div>
   </v-form>
 </template>
@@ -164,7 +155,9 @@ export default {
         const createdEvent = await this.saveEvent({ id, event: finalEvent });
 
         const { listPage } = this;
-        this.$router.replace(`/events/${id || createdEvent.id}?lastView=${listPage}`);
+        this.$router.replace(
+          `/events/${id || createdEvent.id}?lastView=${listPage}`,
+        );
       } catch (err) {
         this.errorMsg = err;
       } finally {

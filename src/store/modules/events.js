@@ -2,6 +2,7 @@ import Vue from 'vue';
 import firebase from 'firebase/app';
 
 const db = firebase.firestore();
+const COLLECTION_NAME = 'events-2021';
 
 const defaultState = {
   events: {},
@@ -13,7 +14,7 @@ const actions = {
   fetchAllEvents: async ({ commit }) => {
     const events = {};
 
-    const snapshot = await db.collection('events-2020')
+    const snapshot = await db.collection(COLLECTION_NAME)
       .orderBy('endTime')
       .orderBy('startTime')
       .get();
@@ -25,7 +26,7 @@ const actions = {
     commit('SAVE_ALL_EVENTS', { events });
   },
   fetchEventById: async ({ commit }, id) => {
-    const document = await db.collection('events-2020').doc(id).get();
+    const document = await db.collection(COLLECTION_NAME).doc(id).get();
 
     const event = {
       id: document.id,
@@ -39,7 +40,7 @@ const actions = {
     return dispatch('createEvent', event);
   },
   createEvent: async ({ commit }, event) => {
-    const document = await db.collection('events-2020').add(event);
+    const document = await db.collection(COLLECTION_NAME).add(event);
     const fetchedEvent = {
       id: document.id,
       ...event,
@@ -49,7 +50,7 @@ const actions = {
     return fetchedEvent;
   },
   updateEvent: async ({ commit }, { id, event }) => {
-    await db.collection('events-2020').doc(id).set(event);
+    await db.collection(COLLECTION_NAME).doc(id).set(event);
     const fetchedEvent = {
       id,
       ...event,
@@ -58,7 +59,7 @@ const actions = {
     commit('SAVE_EVENT', { event: fetchedEvent });
   },
   deleteEvent: async ({ commit }, { id }) => {
-    await db.collection('events-2020').doc(id).delete();
+    await db.collection(COLLECTION_NAME).doc(id).delete();
     commit('DELETE_EVENT', { id });
   },
 };

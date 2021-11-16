@@ -2,6 +2,7 @@ import Vue from 'vue';
 import firebase from 'firebase/app';
 
 const db = firebase.firestore();
+const COLLECTION_NAME = 'tags-2021';
 
 const defaultState = {
   tags: {},
@@ -12,7 +13,7 @@ const actions = {
   fetchAllTags: async ({ commit }) => {
     const tags = {};
 
-    const snapshot = await db.collection('tags-2020').get();
+    const snapshot = await db.collection(COLLECTION_NAME).get();
     snapshot.forEach((doc) => {
       tags[doc.id] = { id: doc.id, ...doc.data() };
     });
@@ -20,7 +21,7 @@ const actions = {
     commit('SAVE_ALL_TAGS', { tags });
   },
   fetchTagById: async ({ commit }, id) => {
-    const document = await db.collection('tags-2020').doc(id).get();
+    const document = await db.collection(COLLECTION_NAME).doc(id).get();
 
     const tag = {
       id: document.id,
@@ -34,7 +35,7 @@ const actions = {
     return dispatch('createTag', tag);
   },
   createTag: async ({ commit }, tag) => {
-    const document = await db.collection('tags-2020').add(tag);
+    const document = await db.collection(COLLECTION_NAME).add(tag);
     const fetchedTag = {
       id: document.id,
       ...tag,
@@ -44,7 +45,7 @@ const actions = {
     return fetchedTag;
   },
   updateTag: async ({ commit }, { id, tag }) => {
-    await db.collection('tags-2020').doc(id).set(tag);
+    await db.collection(COLLECTION_NAME).doc(id).set(tag);
     const fetchedTag = {
       id,
       ...tag,

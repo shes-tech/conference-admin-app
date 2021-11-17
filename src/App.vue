@@ -43,7 +43,7 @@ export default {
     }),
     async logout() {
       await this.sendLogout();
-      window.location.href = 'https://shestech.netlify.app/';
+      window.location.href = 'https://conference.shestech.org/';
     },
   },
   computed: {

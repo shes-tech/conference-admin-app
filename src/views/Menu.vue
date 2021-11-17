@@ -10,15 +10,19 @@
       class="pl-3 mb-6"
       outlined
     >
-      <v-btn color="primary" text :to="link.path" class="px-3" x-large>
-        {{ link.title }}
-      </v-btn>
-      <p class="pl-3">{{ link.description }}</p>
+      <div v-if="link.condition()">
+        <v-btn color="primary" text :to="link.path" class="px-3" x-large>
+          {{ link.title }}
+        </v-btn>
+        <p class="pl-3">{{ link.description }}</p>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'Menu',
   data() {
@@ -28,11 +32,13 @@ export default {
           title: 'Lista de Eventos',
           description: 'Visualizar e alterar lista de eventos.',
           path: '/events',
+          condition: () => this.permissionEvents,
         },
         {
           title: 'Calendário de Eventos',
           description: 'Visualizar eventos no formato de calendário.',
           path: '/events-calendar',
+          condition: () => this.permissionEvents,
         },
         {
           title: 'Trilhas',
@@ -41,6 +47,7 @@ export default {
             e modificar links dos eventos.
           `,
           path: '/tags',
+          condition: () => this.permissionEvents,
         },
         {
           title: 'Mentorias',
@@ -49,9 +56,21 @@ export default {
             e modificar links dos eventos.
           `,
           path: '/mentorias',
+          condition: () => this.permissionMentorias,
         },
       ],
     };
+  },
+  computed: {
+    ...mapGetters({
+      permissions: 'auth/permissions',
+    }),
+    permissionMentorias() {
+      return this.permissions.includes('mentorias');
+    },
+    permissionEvents() {
+      return this.permissions.includes('eventos');
+    },
   },
 };
 </script>

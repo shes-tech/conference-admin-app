@@ -33,6 +33,7 @@ const actions = {
 
 const getters = {
   isUserAuthenticated: (state) => Boolean(state.user),
+  permissions: (state) => state.user.permissions,
 };
 
 const mutations = {

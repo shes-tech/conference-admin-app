@@ -9,6 +9,13 @@
           {{ bio }}
         </TextDescription>
 
+        <TextDescription v-if="speaker.cargo" label="Cargo">
+          {{ speaker.cargo }}
+        </TextDescription>
+        <TextDescription v-if="speaker.cargo" label="Empresa">
+          {{ speaker.empresa }}
+        </TextDescription>
+
         <v-card-subtitle v-if="hasSocial" class="pt-1 pl-0 pb-3">
           Redes Sociais
         </v-card-subtitle>

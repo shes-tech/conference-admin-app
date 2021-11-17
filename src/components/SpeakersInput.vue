@@ -48,6 +48,7 @@
           </v-card-subtitle>
           <UploadAndResizeImage
             v-model="speakers[index].picture"
+            bucket="speakers-2021"
             @change="change()"
           />
         </v-col>

@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 
 import auth from './modules/auth';
 import events from './modules/events';
+import mentorias from './modules/mentorias';
 import tags from './modules/tags';
 import filters from './modules/filters';
 
@@ -18,6 +19,7 @@ export default new Vuex.Store({
   modules: {
     auth,
     events,
+    mentorias,
     tags,
     filters,
   },

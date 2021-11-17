@@ -42,7 +42,13 @@ import { uid } from 'uid';
 
 export default {
   name: 'UploadAndResizeImage',
-  props: ['input'],
+  props: {
+    bucket: {
+      type: String,
+      default: 'speakers',
+    },
+    input: null,
+  },
   model: {
     prop: 'input',
     event: 'change',
@@ -71,7 +77,7 @@ export default {
 
       const id = this.uid;
       const storage = firebase.storage().ref();
-      const imageRef = storage.child(`speakers-2021/${id}.jpg`);
+      const imageRef = storage.child(`${this.bucket}/${id}.jpg`);
       await imageRef.put(file);
       const downloadUrl = await imageRef.getDownloadURL();
       this.downloadUrl = downloadUrl;
@@ -83,7 +89,7 @@ export default {
     async deleteUploadedImage() {
       const id = this.uid;
       const storage = firebase.storage().ref();
-      const imageRef = storage.child(`speakers/${id}.jpg`);
+      const imageRef = storage.child(`${this.bucket}/${id}.jpg`);
       await imageRef.delete();
       this.downloadUrl = null;
     },

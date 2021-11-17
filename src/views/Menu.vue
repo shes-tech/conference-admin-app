@@ -42,6 +42,14 @@ export default {
           `,
           path: '/tags',
         },
+        {
+          title: 'Mentorias',
+          description: `
+            Visualizar e alterar lista de trilhas
+            e modificar links dos eventos.
+          `,
+          path: '/mentorias',
+        },
       ],
     };
   },

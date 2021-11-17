@@ -79,6 +79,30 @@ const routes = [
         component: () => import(/* webpackChunkName: "main" */ '@/views/TagEdit.vue'),
       },
 
+      // == TAGS ==
+      {
+        path: '/mentorias',
+        name: 'Mentorias',
+        component: () => import(/* webpackChunkName: "main" */ '@/views/Mentorias.vue'),
+      },
+      {
+        path: '/mentorias/create',
+        name: 'MentoriaCreate',
+        component: () => import(/* webpackChunkName: "main" */ '@/views/MentoriaEdit.vue'),
+      },
+      {
+        path: '/mentorias/:id',
+        name: 'MentoriaInformation',
+        props: true,
+        component: () => import(/* webpackChunkName: "main" */ '@/views/MentoriaInformation.vue'),
+      },
+      {
+        path: '/mentorias/:id/edit',
+        name: 'MentoriaEdit',
+        props: true,
+        component: () => import(/* webpackChunkName: "main" */ '@/views/MentoriaEdit.vue'),
+      },
+
       {
         path: '*',
         beforeEnter: (to, from, next) => {

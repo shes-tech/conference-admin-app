@@ -21,8 +21,8 @@
         </template>
         <v-date-picker
           v-model="date"
-          max="2020-11-21"
-          min="2020-11-17"
+          max="2021-11-20"
+          min="2021-11-17"
           :show-current="false"
           @change="saveDate"
           ref="picker"
